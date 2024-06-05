@@ -3,11 +3,12 @@ const dotenv=require("dotenv");
 dotenv.config();
 
 const options = {
-    maxAge: 1000 * 60 * 60 * 24 * 30, 
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
     httpOnly: true,
-    sameSite: 'Strict', 
-    secure: true
+    sameSite: 'Strict',
+    secure: process.env.NODE_ENV === 'production', // secure flag true in production
   };
+
 
 const generateToken=(res,userId)=>{
     const token=jwt.sign({userId},process.env.JWT_SECRET,{
