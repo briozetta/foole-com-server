@@ -1,6 +1,5 @@
 const User = require("../models/user.model");
 const bcrypt = require('bcrypt');
-const generateToken = require("../utils/generateToken");
 const dotenv=require("dotenv");
 const sendMail = require("../utils/sendMail");
 const nodemailer = require("nodemailer");
