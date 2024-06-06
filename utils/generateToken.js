@@ -7,6 +7,7 @@ const options = {
     httpOnly: true,
     sameSite: 'Strict',
     secure: process.env.NODE_ENV === 'production', // secure flag true in production
+    path: '/', // Path scope
   };
 
 
