@@ -5,7 +5,7 @@ dotenv.config();
 const options = {
     maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
     httpOnly: true,
-    sameSite: 'Strict',
+    sameSite: 'None', // Allow cross-site
     secure: process.env.NODE_ENV === 'production', // secure flag true in production
     path: '/', // Path scope
   };
