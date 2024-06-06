@@ -5,6 +5,7 @@ const dotenv=require("dotenv");
 const sendMail = require("../utils/sendMail");
 const nodemailer = require("nodemailer");
 const crypto = require('crypto');
+const jwt=require("jsonwebtoken");
 dotenv.config();
 
 exports.getAll = async = (req, res) => {
@@ -53,9 +54,17 @@ exports.signin = async (req, res, next) => {
     if (!validatePassword) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    generateToken(res, validUser._id);
+    // generateToken(res, validUser._id);
+    const token = jwt.sign({ userId: validUser._id },process.env.JWT_SECRET);
     const { password: hashedPassword, ...rest } = validUser._doc;
-    res.status(200).json(rest);
+    const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+    res
+      .cookie('token', token, { httpOnly: true, expires: expiryDate })
+      .status(200)
+      .json(rest);
+
+    // const { password: hashedPassword, ...rest } = validUser._doc;
+    // res.status(200).json(rest);
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
   }

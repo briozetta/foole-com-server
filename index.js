@@ -15,8 +15,8 @@ mongooseConnect()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-  origin: 'https://foole-com-frontend.vercel.app',
   credentials: true,
+  origin: 'https://foole-com-frontend.onrender.com'
 }));
 
 // Use cookie-parser middleware
