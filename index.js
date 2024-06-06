@@ -20,7 +20,7 @@ app.use(cors({
 }));
 
 // Use cookie-parser middleware
-app.use(cookieparser())
+app.use(cookieparser());
 
 // Use routes
 app.use('/api/v1', userRoutes);
