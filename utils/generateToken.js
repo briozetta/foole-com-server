@@ -9,10 +9,12 @@ const generateToken = (res, userId) => {
     });
 
 
+   
     const cookieOptions = {
         maxAge: 1000 * 60 * 60 * 24 * 30, 
         httpOnly: true,
-        path: '/',
+        sameSite: 'Strict', 
+        secure: true
     };
     res.cookie('token', token, cookieOptions);
 };
