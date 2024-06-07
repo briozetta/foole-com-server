@@ -14,12 +14,11 @@ const generateToken = (res, userId) => {
     // Adjust options for cookie
     const cookieOptions = {
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-        httpOnly: false,
-        sameSite: 'Strict', // 'None' if secure, otherwise 'Lax'
+        httpOnly: true,
+        sameSite: secure ? 'None' : 'Lax', // 'None' if secure, otherwise 'Lax'
         secure: secure,
         path: '/',
     };
-
     res.cookie('token', token, cookieOptions);
 };
 
