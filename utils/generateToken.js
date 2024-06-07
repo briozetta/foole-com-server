@@ -11,10 +11,10 @@ const generateToken = (res, userId) => {
 
    
     const cookieOptions = {
-        maxAge: 1000 * 60 * 60 * 24 * 30, 
+        maxAge: 1000 * 60 * 60 * 24 * 30,
         httpOnly: true,
-        sameSite: 'Strict', 
-        secure: true
+        sameSite: 'Strict',
+        secure: false 
     };
     res.cookie('token', token, cookieOptions);
 };
