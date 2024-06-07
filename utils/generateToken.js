@@ -15,7 +15,7 @@ const generateToken = (res, userId) => {
     const cookieOptions = {
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
         httpOnly: true,
-        sameSite: secure ? 'None' : 'Lax', // 'None' if secure, otherwise 'Lax'
+        sameSite: 'None', // 'None' for cross-site cookie
         secure: secure,
         path: '/',
     };
