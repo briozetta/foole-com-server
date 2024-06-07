@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
   credentials: true,
-  origin: 'https://foole-com-frontend.onrender.com'
+  origin: 'https://foole-com-frontend.onrender.com' 
 }));
 
 // Use cookie-parser middleware
