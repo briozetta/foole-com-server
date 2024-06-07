@@ -8,15 +8,10 @@ const generateToken = (res, userId) => {
         expiresIn: '30d',
     });
 
-    // Determine if secure cookies should be used
-    const secure = process.env.NODE_ENV === 'production';
 
-   
     const cookieOptions = {
         maxAge: 1000 * 60 * 60 * 24 * 30, 
         httpOnly: true,
-        sameSite: secure ? 'None' : 'Lax', // 'None' if secure, otherwise 'Lax'
-        secure: secure,
         path: '/',
     };
     res.cookie('token', token, cookieOptions);
