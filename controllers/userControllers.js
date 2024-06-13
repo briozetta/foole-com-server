@@ -117,6 +117,7 @@ exports.getAgentRoleByUserId = async (req, res) => {
 
         if (Array.isArray(userProfile.addressSecond)) {
             addressSecond = userProfile.addressSecond.map(address => ({
+                _id:address._id,
                 newUserfirstName:address.firstName,
                 newUserlastName:address.lastName,
                 mobileNo:address.mobileNo,
@@ -140,7 +141,6 @@ exports.getAgentRoleByUserId = async (req, res) => {
             email: userProfile.email,
             addresses: combinedAddresses
         };
-console.log(response);
         // Send response
         res.json(response);
     } catch (error) {
@@ -174,12 +174,10 @@ exports.addAddress = async (req, res) => {
   
       // Find the user by ID 
       const userData = await User.findById(userId);
-      console.log(userId);
       if (!userData) {  
         return res.status(404).json({ error: 'User not found' });
       }
-  
-   
+
       userData.addressSecond.push(newAddress);
   
       // Save the user data
@@ -193,3 +191,29 @@ exports.addAddress = async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });         
     }
   };
+
+  exports.deleteUserAddress = async (req, res) => {
+    try {
+      const { _id } = req.query;  // This should be the user ID
+      const addressId = req.params.id;  // This is the address ID to delete
+  
+      const userData = await User.findById(_id);
+  
+      if (!userData) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Use the $pull operator to remove the address from the addressSecond array
+      await User.findByIdAndUpdate(
+        _id,
+        { $pull: { addressSecond: { _id: addressId } } },
+        { new: true }
+      );
+  
+      return res.status(200).json({ message: "Address deleted successfully" });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  

@@ -80,12 +80,13 @@ exports.getAllProducts = async (req, res) => {
 }
 exports.getProductsById = async (req, res) => {
   try {
+    
     const product = await Products.findById(req.params.id);
     res.json(product);
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error fetching product:", error); 
     res.status(500).json({ error: "Error fetching product" });
-  }
+  } 
 }
 
 

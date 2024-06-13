@@ -5,6 +5,7 @@ const mongooseConnect = require("./config/config")
 const userRoutes = require('./routes/userRoute');
 const categoryRoutes = require('./routes/categoryRoute');
 const ProductRoute = require('./routes/ProductRoute');
+const checkoutRoute = require('./routes/checkoutRoute');
 const cors = require('cors');
 const cookieparser = require("cookie-parser");
 
@@ -16,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
   credentials: true,
-  origin: 'https://foole-com-frontend.onrender.com',
+  origin: 'http://localhost:3000',
   exposedHeaders: ['set-cookie'], 
 }));
 
@@ -27,6 +28,7 @@ app.use(cookieparser());
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', categoryRoutes);
 app.use('/api/v1', ProductRoute);
+app.use('/api/v1', checkoutRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

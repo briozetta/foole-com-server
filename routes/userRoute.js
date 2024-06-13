@@ -17,6 +17,7 @@ router.put('/update-profile/:id',verifyToken,userController.updateProfile);
 router.put('/update-role/:id',verifyToken,userController.updateUserRole); 
 router.get('/user-address',userController.getUserAddress); 
 router.post('/add-address',userController.addAddress); 
+router.delete('/delete-address/:id',userController.deleteUserAddress); 
 
 
 module.exports = router
