@@ -9,11 +9,18 @@ const userSchema = new mongoose.Schema({
   username: { type: String,},
   email: { type: String,unique:true},
   password: { type: String,},
-  resetToken: {String},
-  resetTokenExpiry: {Date},
+  phone: { type: String, unique: true, sparse: true },
+  otp: {
+    type: String,
+  },
+  otpExpires: {
+    type: Date,
+    required: false
+  },
   verified:{type:Boolean,default:false},
   role: { type: String, enum: ['Customer', 'Admin', 'Agent'], default: 'Customer' },
-  address:[addressSchema], 
+  agentId:{type:String},
+  address: addressSchema, 
   addressSecond:[addressSchemaSecond],  
   country: { type: String },
   deviceId: { type: String },

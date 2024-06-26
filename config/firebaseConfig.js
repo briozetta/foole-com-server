@@ -1,6 +1,7 @@
 // firebaseConfig.js
 const { initializeApp } = require('firebase/app');
 const { getStorage } = require('firebase/storage');
+const { getAuth } = require('firebase/auth');
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcnnPxoGbPVxXLXGLHnc1qjjsw2dO43kQ",
@@ -14,7 +15,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
+const auth = getAuth(app);
 
-module.exports = { storage };
+module.exports = { storage , auth };
 
 

@@ -6,7 +6,7 @@ exports.addToCart = async (req, res) => {
   try {
     const {
       _id: productId,
-      productName,
+      productName,  
       description,
       category,
       price,
@@ -151,8 +151,6 @@ async function removeProductFromCart(userId, productId) {
     return false;
   }
 }
-
-
 
 exports.deleteProductFromCart = async (req, res) => {
   const { userId, productId } = req.body;
