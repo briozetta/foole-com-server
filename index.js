@@ -13,8 +13,8 @@ const cookieparser = require("cookie-parser");
 mongooseConnect()
 
 // Middleware Setup
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Increase payload size limit
+app.use(express.json({ limit: '10mb' })); // Increase payload size limit
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000',

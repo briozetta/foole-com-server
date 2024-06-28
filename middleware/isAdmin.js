@@ -3,7 +3,6 @@ const User = require('../models/user.model');
 const isAdmin = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-console.log(user);
     if (!user || user.role !== 'Admin') {
       return res.status(403).json({ error: "You can't access data" });
     }

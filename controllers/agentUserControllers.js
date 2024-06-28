@@ -4,9 +4,9 @@ const Orders = require("../models/orders.model");
 
 exports.getAllUsersByAgentId = async (req, res) => {
     try {
-        const { agentId } = req.query;
+        const { agentId } = req.query; 
         await isAgent(req,res);
-
+ 
         if (!agentId) {
             return res.status(400).json({ error: "agentId is required" });
         }
@@ -25,11 +25,11 @@ exports.getAllUsersByAgentId = async (req, res) => {
 
             const ordersWithCommission = orders.map(order => {
                 const commission = order.totalAmount * 0.25;
-                totalCommission += commission;
+                totalCommission += commission; 
                 return {
                     ...order._doc, // Spread the original order document
                     commission
-                };
+                }; 
             });
 
             return { 
