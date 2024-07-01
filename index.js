@@ -8,6 +8,16 @@ const ProductRoute = require('./routes/ProductRoute');
 const checkoutRoute = require('./routes/checkoutRoute');
 const cors = require('cors');
 const cookieparser = require("cookie-parser");
+// const redis = require("redis");
+// let redisClient;
+
+// // Redis connection
+// (async () => {
+//     redisClient = redis.createClient();
+//     redisClient.on('error', (error)=> console.log('redis error'+error));
+//     await redisClient.connect();
+// })();
+
 
 // Connect to MongoDB
 mongooseConnect()

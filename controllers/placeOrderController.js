@@ -4,7 +4,7 @@ const sendMail = require("../utils/sendMail");
 
 
 exports.placeOrder = async (req, res) => {
-    try {
+    try { 
         const { orderDetails } = req.body;
         const {
             userId,

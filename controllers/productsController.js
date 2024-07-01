@@ -69,6 +69,17 @@ exports.addProducts = async (req, res) => {
 
 }
 
+exports.getProducts= async (req, res) => {
+
+  try {
+    const products = await Products.find();
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Error fetching products' });
+  }
+}
+
 exports.getAllProducts = async (req, res) => {
 
   try {

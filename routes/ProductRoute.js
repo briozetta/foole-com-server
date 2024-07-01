@@ -8,10 +8,11 @@ const Products = require('../models/products.mode');
 const paginatedResults = require('../utils/pagination');
 
 
-router.post("/upload", upload.array('photos', 100), productsController.uploadImage); 
+router.post("/upload", upload.array('photos', 100), productsController.uploadImage);       
 router.post("/add-product",verifyToken,productsController.addProducts); 
 // paginated products
 router.get("/all-products",paginatedResults(Products),productsController.getAllProducts); 
+router.get("/get-all-products",productsController.getProducts); 
 // end
 router.get("/products/:id",productsController.getProductsById);  
 router.put("/update-product/:id",productsController.updateProductsById); 
