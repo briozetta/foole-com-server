@@ -4,13 +4,13 @@ const dotenv = require("dotenv");
 const isAdmin = require('../middleware/isAdmin');
 const Products = require('../models/products.mode');
 dotenv.config();
-const fs = require('fs').promises; 
+const fs = require('fs').promises;
 
 async function uploadToFirebase(filePath, originalFilename, mimetype) {
   const parts = originalFilename.split('.');
   const ext = parts[parts.length - 1];
   const newFilename = Date.now() + '.' + ext;
-  const fileBuffer = await fs.readFile(filePath); 
+  const fileBuffer = await fs.readFile(filePath);
 
   const storageRef = ref(storage, newFilename);
   const metadata = {
@@ -40,17 +40,18 @@ exports.uploadImage = async (req, res) => {
 exports.addProducts = async (req, res) => {
   try {
     await isAdmin(req, res);
-    const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability'];
+    const requiredFields = ['productName', 'description', 'category', 'price', 'inventory' , 'availability','agentCommission',
+    'displayDiscount'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.status(400).json({ error: `${field} is required` });
       }
     }
-    
+
     if (!req.body.images || req.body.images.length === 0) {
       return res.status(400).json({ error: 'images are empty' });
     }
-   
+
     const newProducts = {
       productName: req.body.productName,
       description: req.body.description,
@@ -58,7 +59,14 @@ exports.addProducts = async (req, res) => {
       price: req.body.price,
       images: req.body.images,
       inventory: req.body.inventory,
-      availability:req.body.availability
+      availability: req.body.availability,
+      agentCommission: req.body.agentCommission,
+      displayDiscount: req.body.displayDiscount,
+        size: req.body.  size
+
+
+
+
     }
     await Products.create(newProducts);
     res.status(200).json({ message: "Product added successfully" })
@@ -69,7 +77,7 @@ exports.addProducts = async (req, res) => {
 
 }
 
-exports.getProducts= async (req, res) => {
+exports.getProducts = async (req, res) => {
 
   try {
     const products = await Products.find();
@@ -91,20 +99,21 @@ exports.getAllProducts = async (req, res) => {
 }
 exports.getProductsById = async (req, res) => {
   try {
-    
+
     const product = await Products.findById(req.params.id);
     res.json(product);
   } catch (error) {
-    console.error("Error fetching product:", error); 
+    console.error("Error fetching product:", error);
     res.status(500).json({ error: "Error fetching product" });
-  } 
+  }
 }
 
 
 exports.updateProductsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productName, description, category, price, images, inventory, availability } = req.body;
+    const { productName, description, category, price, images, inventory, 
+      availability ,   size,agentCommission, displayDiscount } = req.body;
     const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -114,7 +123,7 @@ exports.updateProductsById = async (req, res) => {
     if (!req.body.images || req.body.images.length === 0) {
       return res.status(400).json({ error: 'images are empty' });
     }
-  
+
     const updatedProduct = await Products.findByIdAndUpdate(id, {
       productName,
       description,
@@ -122,7 +131,11 @@ exports.updateProductsById = async (req, res) => {
       price,
       images,
       inventory,
-      availability
+      availability,
+        size,
+      agentCommission,
+      displayDiscount
+
 
     }, { new: true });
 
@@ -140,10 +153,10 @@ exports.disableProduct = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const Product = await Products.findByIdAndUpdate(id, { disabled: true }, { new: true });
-        if (!Product) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-        res.json({ message: "Product deleted successfully" });
+    if (!Product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error('Error deleting product:', error);
     res.status(500).json({ message: 'Internal server error' });

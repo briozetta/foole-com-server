@@ -6,9 +6,12 @@ exports.addToCart = async (req, res) => {
   try {
     const {
       _id: productId,
-      productName,  
+      productName,
       description,
       category,
+      agentCommission,
+      displayDiscount,
+      size,
       price,
       images,
       quantity,
@@ -47,6 +50,10 @@ exports.addToCart = async (req, res) => {
         description,
         category,
         price,
+        category,
+        agentCommission,
+        displayDiscount,
+        size,
         images,
         quantity,
       });
@@ -72,7 +79,7 @@ exports.retriveFromCart = async (req, res) => {
       return res.json({ message: 'No items found in cart' });
     }
     // Extract the products array
-    const products = cart.products; 
+    const products = cart.products;
 
     res.status(200).json(products);
   } catch (error) {
@@ -113,7 +120,7 @@ exports.updateProductQuantity = async (req, res) => {
 };
 
 async function removeProductFromCart(userId, productId) {
-  console.log("===productId====::",productId);
+  console.log("===productId====::", productId);
   try {
     // First, find the cart
     const cart = await Cart.findOne({ userId });
@@ -125,7 +132,7 @@ async function removeProductFromCart(userId, productId) {
 
     // Find the index of the product to remove in the products array 
     let productIndex = -1;
-    for (let i = 0; i < cart.products.length; i++) { 
+    for (let i = 0; i < cart.products.length; i++) {
       console.log(cart.products[i].productId);
       if (cart.products[i].productId === productId) {
         productIndex = i;
@@ -156,7 +163,7 @@ exports.deleteProductFromCart = async (req, res) => {
   const { userId, productId } = req.body;
 
   const success = await removeProductFromCart(userId, productId);
- 
+
   if (success) {
     res.status(200).json({ message: 'Product removed successfully' });
   } else {
