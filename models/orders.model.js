@@ -26,6 +26,10 @@ const OrderItemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    agentCommission: {
+        type: Number,
+        required: true,
+    },
 }, { _id: false });
 
 const OrderSchema = new mongoose.Schema({

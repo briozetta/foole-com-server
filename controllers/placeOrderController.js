@@ -8,13 +8,12 @@ exports.placeOrder = async (req, res) => {
         const { orderDetails } = req.body;
         const {
             userId,
-            items,
+            items ,
             shippingMethod,
             totalAmount,
             shippingAddress
         } = orderDetails;
 
-        console.log(shippingAddress);
         // Validate required fields
         if (!userId || !items || !shippingMethod || !totalAmount || !shippingAddress) {
             return res.status(400).json({ error: "Missing required fields" });
@@ -45,7 +44,7 @@ exports.placeOrder = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
-};
+}; 
 
 exports.myOrders = async (req, res) => {
     try {
