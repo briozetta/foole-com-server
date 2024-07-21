@@ -4,7 +4,7 @@ const Products = require('../models/products.mode');
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs').promises;
 dotenv.config();
-
+const fs = require('fs').promises; 
 
 async function uploadToDigitalOcean(path, originalFilename, mimetype) {
   const client = new S3Client({ 
@@ -19,23 +19,16 @@ async function uploadToDigitalOcean(path, originalFilename, mimetype) {
   const parts = originalFilename.split('.');
   const ext = parts[parts.length - 1];
   const newFilename = Date.now() + '.' + ext;
-  const bucket = 'loofeestorage'; // Replace with your DigitalOcean Space name
+  const fileBuffer = await fs.readFile(filePath); 
 
-  try {
-    const fileContent = await fs.readFile(path); // Read file asynchronously
+  const storageRef = ref(storage, newFilename);
+  const metadata = {
+    contentType: mimetype,
+  };
 
-    await client.send(new PutObjectCommand({
-      Bucket: bucket,
-      Body: fileContent,
-      Key: newFilename,
-      ContentType: mimetype,
-      ACL: 'public-read', // Optional: Change or remove based on your needs
-    }));
-    return `https://${bucket}.nyc3.cdn.digitaloceanspaces.com/${newFilename}`;
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    throw error;
-  }
+  await uploadBytes(storageRef, fileBuffer, metadata);
+  const url = await getDownloadURL(storageRef);
+  return url;
 }
 
 exports.uploadImage = async (req, res) => {
@@ -57,8 +50,7 @@ exports.uploadImage = async (req, res) => {
 exports.addProducts = async (req, res) => {
   try {
     await isAdmin(req, res);
-    const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability', 'agentCommission',
-      'displayDiscount'];
+    const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.status(400).json({ error: `${field} is required` });
@@ -76,11 +68,7 @@ exports.addProducts = async (req, res) => {
       price: req.body.price,
       images: req.body.images,
       inventory: req.body.inventory,
-      availability: req.body.availability,
-      agentCommission: req.body.agentCommission,
-      displayDiscount: req.body.displayDiscount,
-      size: req.body.size
-
+      availability:req.body.availability
     }
     await Products.create(newProducts);
     res.status(200).json({ message: "Product added successfully" })
@@ -126,8 +114,7 @@ exports.getProductsById = async (req, res) => {
 exports.updateProductsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productName, description, category, price, images, inventory,
-      availability, size, agentCommission, displayDiscount } = req.body;
+    const { productName, description, category, price, images, inventory, availability } = req.body;
     const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -145,11 +132,7 @@ exports.updateProductsById = async (req, res) => {
       price,
       images,
       inventory,
-      availability,
-      size,
-      agentCommission,
-      displayDiscount
-
+      availability
 
     }, { new: true });
 

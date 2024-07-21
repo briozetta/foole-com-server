@@ -44,8 +44,6 @@ exports.addToCart = async (req, res) => {
         description,
         category,
         price,
-        agentCommission,
-        displayDiscount,
         images,
         quantity,
       };

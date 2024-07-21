@@ -8,10 +8,7 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true }, 
   price: { type: Number, required: true },
   images: [{ type: String }],
-  quantity: { type: Number, default: 1, required: true },
-  agentCommission:{type:Number},
-  displayDiscount:{ type: String }, 
-  size:{ type: String },
+  quantity: { type: Number, default: 1, required: true }
 });
 
 const cartSchema = new mongoose.Schema({
