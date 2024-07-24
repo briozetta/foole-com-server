@@ -21,7 +21,6 @@ exports.getAllUsersByAgentId = async (req, res) => {
         // Prepare the response structure
         const usersWithOrders = await Promise.all(agentUsers.map(async (user) => {
             const orders = await Orders.find({ userId: user._id });
-
             let totalCommission = 0;
 
             const ordersWithCommission = orders.map(order => {
