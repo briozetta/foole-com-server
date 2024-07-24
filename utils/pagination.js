@@ -6,7 +6,7 @@ function paginatedResults(model) {
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-
+ 
     const results = {};
     let query = {};
 
