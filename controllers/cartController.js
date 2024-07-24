@@ -37,27 +37,27 @@ exports.addToCart = async (req, res) => {
         agentId: userID, // Adjust if necessary
       });
     }
-
-    // Check if the product already exists in the cart   
-    const existingProductIndex = cart.products.findIndex(p => p.productId === productId);
-    if (existingProductIndex !== -1) {
-      return res.status(400).json({ message: "This item is already in the cart" });
-    } else {
-      // Otherwise, add the new product
-      cart.products.push({
+      // Create the new product object
+      const newProduct = {
         productId,
         productName,
         description,
         category,
         price,
-        category,
         agentCommission,
         displayDiscount,
-        size,
         images,
         quantity,
-      });
-    }
+      };
+
+      // Include size if it is provided
+      if (size) {
+        newProduct.size = Array.isArray(size) ? size.join(', ') : size;
+      }
+
+      // Add the new product to the cart
+      cart.products.push(newProduct);
+    
 
     // Save the updated cart
     await cart.save();
@@ -167,6 +167,6 @@ exports.deleteProductFromCart = async (req, res) => {
   if (success) {
     res.status(200).json({ message: 'Product removed successfully' });
   } else {
-    res.status(400).json({ message: 'Failed to remove product from cart' });
+    res.status(400).json({ message: 'Failed to remove product from cart' }); 
   }
 };

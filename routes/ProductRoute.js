@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 const productsController = require("../controllers/productsController");
 const verifyToken = require('../utils/verifyToken');
-const multer=require('multer');
-const upload=multer({dest:'/tmp'})
 const Products = require('../models/products.mode');
 const paginatedResults = require('../utils/pagination');
-
+const upload = require('../config/multerConfig');
 
 router.post("/upload", upload.array('photos', 100), productsController.uploadImage);       
 router.post("/add-product",verifyToken,productsController.addProducts); 

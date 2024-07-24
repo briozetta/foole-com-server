@@ -141,12 +141,12 @@ exports.resendOtp = async (req,res) =>{
     user.otpExpires = otpExpires;
     await user.save();
 
-    const purpose = "verification";
+    const purpose = "reset_password";
     await sendMail(otp, user.email, purpose);
     res.json({ message: 'OTP resent successfully' });
 
   } catch (error) {
-    
+     
   }
 }
 

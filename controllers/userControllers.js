@@ -230,21 +230,24 @@ exports.deleteUserAddress = async (req, res) => {
   }
 };
 
-exports.addUserByAgent = async (req,res) => {
+exports.addUserByAgent = async (req, res) => {
   try {
     const { agentId, formData } = req.body;
     const { contact, firstName, lastName, password } = formData;
-
+   
+    // Patterns for phone and email validation
     const phonePattern = /^\d{10}$/;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const isPhone = phonePattern.test(contact);
     const isEmail = emailPattern.test(contact);
 
+    // Validate the contact information
     if (!isPhone && !isEmail) {
       return res.status(400).json({ message: 'Please enter a valid 10-digit phone number or email address.' });
     }
 
+    // Check if user already exists
     let existingUser;
     if (isPhone) {
       existingUser = await User.findOne({ phone: contact });
@@ -256,21 +259,26 @@ exports.addUserByAgent = async (req,res) => {
       return res.status(400).json({ message: 'User with this contact already exists.' });
     }
 
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the user data object
     const userData = {
       firstName,
       lastName,
-      password:hashedPassword,
+      password: hashedPassword,
       agentId,
       verified: true,
     };
 
+    // Assign the contact information appropriately
     if (isPhone) {
       userData.phone = contact;
     } else if (isEmail) {
       userData.email = contact;
     }
 
+    // Create and save the new user
     const newUser = new User(userData);
     await newUser.save();
 
@@ -279,5 +287,4 @@ exports.addUserByAgent = async (req,res) => {
     console.error('Error adding user by agent:', error);
     res.status(500).json({ message: 'An error occurred. Please try again.' });
   }
-
-}
+};
