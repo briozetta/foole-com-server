@@ -8,12 +8,12 @@ const verifyToken = require('../utils/verifyToken');
 
 // auth routes
 router.get('/',authController.getAll);
-router.get('/logout',authController.logout);
-router.get("/get-all-users",verifyToken,userController.getAllUsers);
-router.get("/agent/:id",userController.getAgentRoleByUserId); 
 router.post('/sign-up',authController.signup); 
 router.post('/sign-in',authController.signin);
 router.post('/verify-email',authController.mailVerification);
+router.get('/logout',authController.logout);
+router.get("/get-all-users",verifyToken,userController.getAllUsers);
+router.get("/agent/:id",userController.getAgentRoleByUserId); 
 router.post('/resend-otp',authController.resendOtp);
 router.post('/reset-password', authController.resetPassword);
 // user routes

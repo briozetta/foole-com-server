@@ -8,6 +8,7 @@ exports.placeOrder = async (req, res) => {
         const { orderDetails } = req.body;
         const {
             userId,
+            agentId,
             items ,
             shippingMethod,
             totalAmount,
@@ -22,6 +23,7 @@ exports.placeOrder = async (req, res) => {
         // Create a new order object
         const newOrder = new Orders({
             userId,
+            agentId,
             items,
             shippingMethod,
             shippingAddress,
@@ -61,7 +63,6 @@ exports.myOrders = async (req, res) => {
             totalAmount: order.totalAmount,
             createdAt: order.createdAt.toISOString().slice(0, 19).replace('T', ' ') // Format createdAt as needed
         }));
-
         res.json(ordersToSend);
         
     } catch (error) {
