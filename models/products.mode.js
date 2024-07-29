@@ -12,7 +12,8 @@ const productSchema = new mongoose.Schema({
     inventory: { type: Number },
     availability:  { type: String, enum: ['In stock', 'Out of stock', ]},
     disabled:{type:Boolean}
-});
+    
+},{ timestamps: true });
 
 const Products = mongoose.model('Product', productSchema);
 

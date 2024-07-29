@@ -15,6 +15,8 @@ router.get("/get-all-products",productsController.getProducts);
 router.get("/products/:id",productsController.getProductsById);  
 router.put("/update-product/:id",productsController.updateProductsById); 
 router.put("/product-delete/:id",productsController.disableProduct); 
+//related products
+router.get("/get-related-products",productsController.relatedProducts);
 
 module.exports = router
 

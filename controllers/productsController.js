@@ -57,8 +57,7 @@ exports.uploadImage = async (req, res) => {
 exports.addProducts = async (req, res) => {
   try {
     await isAdmin(req, res);
-    const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability', 'agentCommission',
-      'displayDiscount'];
+    const requiredFields = ['productName', 'description', 'category', 'price', 'inventory', 'availability', 'agentCommission',];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.status(400).json({ error: `${field} is required` });
@@ -162,6 +161,7 @@ exports.updateProductsById = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 exports.disableProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -176,3 +176,24 @@ exports.disableProduct = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+exports.relatedProducts = async (req, res) => {
+  try {
+    const category = req.query.category;
+    const excludeId = req.query._id;
+
+    if (!category) {
+      return res.status(400).json({ message: "Category is required" });
+    }
+
+    const products = await Products.find({ 
+      category, 
+      _id: { $ne: excludeId } 
+    }).limit(4);
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching related products:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

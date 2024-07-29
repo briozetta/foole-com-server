@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const dotenv=require("dotenv");
 const sendMail = require("../utils/sendMail");
 const crypto = require('crypto');
+const validator = require("../utils/validator");
 const generateToken = require("../utils/generateToken");
 dotenv.config();
 
@@ -20,6 +21,11 @@ const generateOTP = () => {
 // signup
 exports.signup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
+
+  const validationError = validator({ firstName, lastName, email, password });
+  if (validationError) {
+    return res.status(400).json({ error: validationError });
+  }
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {

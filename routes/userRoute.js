@@ -29,6 +29,7 @@ router.get('/agent-user',verifyToken, agentUserControllers.getAllUsersByAgentId)
 
 // admin routes
 router.get('/get-all-orders',verifyToken, adminUserControllers.getAllorders);
+router.get('/get-agent',verifyToken, adminUserControllers.getAgentById);
 router.put('/update-order', adminUserControllers.updateOrder);  
 
 module.exports = router

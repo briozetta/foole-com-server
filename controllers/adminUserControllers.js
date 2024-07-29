@@ -1,5 +1,6 @@
 const isAdmin = require("../middleware/isAdmin");
 const Orders = require("../models/orders.model");
+const User = require("../models/user.model");
 
 exports.getAllorders = async (req, res) => {
     try {
@@ -30,3 +31,24 @@ exports.updateOrder = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+exports.getAgentById = async (req, res) => {
+    try {
+      // Ensure the user is an admin
+      await isAdmin(req, res);
+
+      const _id = req.query.id;
+
+      const Agent = await User.findById(_id);
+      if (!Agent) {
+        return res.status(404).json({ message: "Agent not found" });
+      }
+      const { firstName, lastName, email, phone } = Agent;
+      res.status(200).json({ firstName, lastName, email, phone });
+    } catch (error) {
+      // Log the error and send an error response
+      console.error("Error fetching agent data:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  

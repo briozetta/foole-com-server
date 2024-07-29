@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const sendMail = async (id, email, purpose,orderDetails,totalPrice) => {
+const sendMail = async (id, email, purpose, orderDetails, totalPrice) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         port: 465,
@@ -27,13 +27,13 @@ const sendMail = async (id, email, purpose,orderDetails,totalPrice) => {
         subject = "Reset Your Password";
         htmlContent = `<div style="font-size: 16px;">
             <b style="font-size: 18px;">Reset Your Password</b> <br> 
-             <b style="font-size: 18px;">your otp is ${id}</b>
+             <b style="font-size: 18px;">your otp is ${id}</b> <br>
+           <span style="font-size: 16px;">⚠️ Note: If you did not request a password change, please ignore this message.</span>
           </div>`;
     } else if (purpose === "order_confirmation") {
         subject = "Order Confirmation";
         htmlContent = `<div style="font-size: 16px;">
             <b style="font-size: 18px;">Thank you for your order!</b> <br> 
-            <span style="font-size: 16px;">Your order ID is <strong>${id}</strong>.</span><br>
             <span style="font-size: 16px;">Order Details:</span><br>
             ${orderDetails.map(item => `
               <div>

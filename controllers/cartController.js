@@ -120,7 +120,6 @@ exports.updateProductQuantity = async (req, res) => {
 };
 
 async function removeProductFromCart(userId, productId) {
-  console.log("===productId====::", productId);
   try {
     // First, find the cart
     const cart = await Cart.findOne({ userId });
@@ -150,8 +149,6 @@ async function removeProductFromCart(userId, productId) {
 
     // Update the cart in the database
     await cart.save();
-
-    console.log('Product removed successfully');
     return true;
   } catch (err) {
     console.error('Error removing product from cart:', err);

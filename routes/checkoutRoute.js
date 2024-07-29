@@ -10,4 +10,4 @@ router.delete("/cart/remove-product",cartController.deleteProductFromCart);
 router.post("/place-order",placeOrderController.placeOrder);
 router.get("/my-orders",placeOrderController.myOrders);
 
-module.exports = router
+module.exports = router 

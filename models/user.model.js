@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   updatedBy: { type: String, default: 'admin' },
   isActive: { type: Boolean, default: true }
 
-},{collection: "userData" });
+},{timestamps:true,collection: "userData" });
 
 const User = mongoose.model('User', userSchema); 
 

@@ -28,7 +28,7 @@ exports.getAllUsersByAgentId = async (req, res) => {
                 const orderCommission = order.items.reduce((acc, item) => {
                     // Convert agentCommission from whole number to decimal
                     const agentCommissionDecimal = item.agentCommission / 100;
-                    const commission = agentCommissionDecimal * item.price;
+                    const commission = Math.ceil(agentCommissionDecimal * item.price * item.quantity);
                     return acc + commission;
                 }, 0);
 
