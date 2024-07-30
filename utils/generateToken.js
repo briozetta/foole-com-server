@@ -5,10 +5,10 @@ dotenv.config();
 // Update the generateToken function
 const generateToken = (res, userId) => {
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, { 
-        expiresIn: '30d',
+        expiresIn: '365d',
     });
     const cookieOptions = {
-        maxAge: 1000 * 60 * 60 * 24 * 30, 
+        maxAge: 1000 * 60 * 60 * 24 * 365,
         httpOnly: true,
         sameSite: 'Strict', 
         secure: true
