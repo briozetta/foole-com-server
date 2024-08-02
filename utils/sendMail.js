@@ -11,7 +11,7 @@ const sendMail = async (id, email, purpose, orderDetails, totalPrice) => {
         debug: true,
         secureConnection: false,
         auth: {
-            user: "gokulsubashwydnov@gmail.com",
+            user: "start22biz@gmail.com",
             pass: process.env.PASSCODE,
         },
     });
@@ -41,16 +41,16 @@ const sendMail = async (id, email, purpose, orderDetails, totalPrice) => {
               </div>
             `).join('')}
             <br>
-            <span style="font-size: 16px;">Total Price: $${totalPrice}</span><br>
+            <span style="font-size: 16px;">Total Price: ₹${totalPrice}</span><br>
             <span style="font-size: 16px;">We will notify you when your order is shipped.</span>
           </div>`;
     }
 
     await transporter.sendMail({
-        from: '"Gokul Subhash" <gokulsubashwydnov@gmail.com>',
+        from: '"Loofee Ecommerce" <start22biz@gmail.com>',
         to: email,
         subject: subject,
-        html: htmlContent,
+        html: htmlContent, 
     });
 }
 
