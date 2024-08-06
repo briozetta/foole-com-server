@@ -47,7 +47,7 @@ exports.signup = async (req, res) => {
   }
 }
 
-// sign in
+// sign in 
 exports.signin = async (req, res, next) => {
   const { identifier, password } = req.body;
   try {
@@ -94,7 +94,6 @@ exports.mailVerification = async (req, res) => {
     const { otp, email,purpose } = req.body;
     
     const user = await User.findOne({email});
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     };

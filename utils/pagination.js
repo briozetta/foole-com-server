@@ -57,7 +57,7 @@ function paginatedResults(model) {
           limit,
         };
       }
-      results.result = await model.find(query).limit(limit).skip(startIndex).exec();
+      results.result = await model.find(query).sort({ createdAt: -1 }).limit(limit).skip(startIndex).exec();
       res.paginatedResult = results;
       next();
     } catch (error) {
