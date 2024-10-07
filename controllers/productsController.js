@@ -19,7 +19,8 @@ async function uploadToDigitalOcean(path, originalFilename, mimetype) {
   const parts = originalFilename.split('.');
   const ext = parts[parts.length - 1];
   const newFilename = Date.now() + '.' + ext;
-  const bucket = 'loofeestorage'; // Replace with your DigitalOcean Space name
+  const bucket = 'gaadi9loofee'; // Replace with your DigitalOcean Space name
+  const folder = 'loofee-storage'; // Folder inside storage space
 
   try {
     const fileContent = await fs.readFile(path); // Read file asynchronously
@@ -27,11 +28,11 @@ async function uploadToDigitalOcean(path, originalFilename, mimetype) {
     await client.send(new PutObjectCommand({
       Bucket: bucket,
       Body: fileContent,
-      Key: newFilename,
+      Key: `${folder}/${newFilename}`,
       ContentType: mimetype,
       ACL: 'public-read', // Optional: Change or remove based on your needs
     }));
-    return `https://${bucket}.nyc3.cdn.digitaloceanspaces.com/${newFilename}`;
+    return `https://${bucket}.nyc3.cdn.digitaloceanspaces.com/${folder}/${newFilename}`;
   } catch (error) {
     console.error('Error uploading file:', error);
     throw error;

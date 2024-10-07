@@ -32,4 +32,4 @@ app.use('/api/v1', checkoutRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-  });
+  });   

@@ -191,3 +191,20 @@ exports.logout = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 }
+
+// check token
+
+exports.protectedRoute = async (req,res)=>{
+  try {
+    const token = req.cookies.token; 
+    if (!token) { 
+       
+      return res.status(401).json({ message: 'You are not authenticated!' });
+    }else{
+      return res.status(200).json({ message: 'authenticated' });
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
